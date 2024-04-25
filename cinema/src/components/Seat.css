@@ -1,0 +1,9 @@
+.hacademy-cinema-seat {
+    display: inline-block;
+    box-shadow: 0 0 0 1px black;
+    width : 1em;
+    height : 1em;
+}
+.hacademy-cinema-seat > [type=checkbox]{
+    display: none;
+}
