@@ -1,9 +1,23 @@
 .hacademy-cinema-seat {
+    position: relative;
     display: inline-block;
-    box-shadow: 0 0 0 1px black;
     width : 1em;
     height : 1em;
+    cursor: pointer;
+}
+.hacademy-cinema-seat:hover {
+    opacity: 0.9;
 }
 .hacademy-cinema-seat > [type=checkbox]{
     display: none;
+}
+.hacademy-cinema-seat > span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 0 0 1px black;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
