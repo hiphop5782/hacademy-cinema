@@ -22,8 +22,8 @@ const SeatGroup = ({
     className,
     rows=[],
     cols=[],
-    showNames=false,
-    controls=true,
+    showNames=true,
+    controls=false,
 })=>{
     const [rowList, setRowList] = useState(rows);
     const [colList, setColList] = useState(cols);
