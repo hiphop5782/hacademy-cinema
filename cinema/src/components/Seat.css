@@ -5,7 +5,11 @@
     height : 1em;
     cursor: pointer;
 }
-.hacademy-cinema-seat:hover {
+.hacademy-cinema-seat-group > .hacademy-cinema-seat {
+    position: absolute !important;
+}
+.hacademy-cinema-seat:not(.reserved):hover,
+.hacademy-cinema-seat:not(.disabled):hover {
     opacity: 0.9;
 }
 .hacademy-cinema-seat > [type=checkbox]{
@@ -17,7 +21,7 @@
     bottom: 0;
     right: 0;
     left: 0;
-    box-shadow: 0 0 0 1px black;
+    /* box-shadow: 0 0 0 1px black; */
     background-repeat: no-repeat;
     background-size: contain;
 }

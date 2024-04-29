@@ -10,11 +10,20 @@ const Seat = ({
         disabled=false,
         edit=false,
         direction="up",
+        x=0, y=0,
+        onChange
     })=>{
 
     //state
     const [image, setImage] = useState(`${process.env.PUBLIC_URL}/images/seat-basic.png`);
     const [angle, setAngle] = useState(0);
+
+    //초기 상태 설정
+    useEffect(()=>{
+        if(reserved) {
+            setImage(`${process.env.PUBLIC_URL}/images/seat-reserved.png`);
+        }
+    }, []);
 
     //callback
     const checkSeat = useCallback(e=>{
@@ -27,6 +36,7 @@ const Seat = ({
         else {
             setImage(`${process.env.PUBLIC_URL}/images/seat-basic.png`);
         }
+        onChange(e);
     }, [image]);
 
     const rotateSeat = useCallback(e=>{
@@ -38,9 +48,21 @@ const Seat = ({
         setAngle(newAngle);
     }, [image, angle]);
 
+    //초기 각도 설정
+    useEffect(()=>{
+        const data = {
+            up : 0, right : 90, down : 180, left : 270
+        };
+        setAngle(data[direction]);
+    }, [direction]);
+
     return (
-        <label className={`hacademy-cinema-seat ${className} ${reserved && 'reserved'} ${disabled && 'disabled'}`} 
-            style={{fontSize:size}}
+        <label className={`hacademy-cinema-seat ${className} ${reserved ? 'reserved' : ''} ${disabled ? 'disabled' : ''}`} 
+            style={
+                {
+                    fontSize:size, left:x, top:y
+                }
+            }
             onContextMenu={rotateSeat}>
             <input type="checkbox" name={name} value={`${row}-${col}`} disabled={reserved}
                 onChange={checkSeat}/>
