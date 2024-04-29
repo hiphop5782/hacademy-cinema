@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 import Seat from "./Seat";
 
 const SeatGroup = ({
-    maps = [],
-    onChange,
+    map = [],
+    setMap,
     fields={
         no:'no', 
         row:'row', 
@@ -17,6 +17,7 @@ const SeatGroup = ({
         reserved:'reserved', 
         disabled:'disabled', 
         direction:'direction',
+        checked:'checked',
     },
     className,
     rows=[],
@@ -24,7 +25,6 @@ const SeatGroup = ({
     showNames=false,
     controls=true,
 })=>{
-    const [map, setMap] = useState(maps);
     const [rowList, setRowList] = useState(rows);
     const [colList, setColList] = useState(cols);
     
@@ -52,15 +52,6 @@ const SeatGroup = ({
     }, [rows, cols, map]);
     useEffect(calculateRowAndCols, [showNames, rows, cols, rowList, colList]);
 
-    //map이 변경될 때마다 onChange로 알림
-    useEffect(()=>{
-        if(onChange !== undefined) {
-            const filter = map.filter(seat=>seat.checked === true);
-            console.log(filter);
-            onChange(map, filter);
-        }
-    }, [map]);
-
     const wrapper = useRef();
     const [size, setSize] = useState(0);
     const [unitSize, setUnitSize] = useState(16);
@@ -80,9 +71,10 @@ const SeatGroup = ({
     });
 
     const checkSeat = useCallback((e, target)=>{
-        setMap(map.map((seat)=>{
+        //console.log(e.target, e.target.checked, map.flatMap(seat=>seat.checked === true).join(","));
+        setMap(prev=>prev.map((seat)=>{
             if(seat[fields.no] === target[fields.no]) {
-                return {...seat, checked:e.target.checked};
+                return {...seat, [fields["checked"]]:e.target.checked};
             }
             return seat;
         }));
@@ -98,10 +90,23 @@ const SeatGroup = ({
     //unitSize에 기반하여 names 크기 계산
     const fontSize = useMemo(()=>unitSize / 3, [unitSize]);
 
-    //column check event
-    const checkSeatColumn = useCallback(col=>{
-        
-    }, []);
+    //check event
+    const checkSeatRow = useCallback((row, checked)=>{
+        setMap(prev=>prev.map(seat=>{
+            if(seat[fields.row] === row) {
+                return {...seat, [fields["checked"]]:checked};
+            }
+            return {...seat};
+        }));
+    }, [map]);
+    const checkSeatColumn = useCallback((col, checked)=>{
+        setMap(prev=>prev.map(seat=>{
+            if(seat[fields.col] === col) {
+                return {...seat, [fields["checked"]]:checked};
+            }
+            return {...seat};
+        }));
+    }, [map]);
 
     //dispatch resize event once
     useEffect(()=>{window.dispatchEvent(new Event('resize'))}, []);
@@ -116,7 +121,8 @@ const SeatGroup = ({
                             left:0,
                             transform:"translate(0, -50%)",
                             cursor:controls===true ? "pointer" : "default",
-                        }}>{row}</span>))}
+                        }}
+                        onClick={e=>checkSeatRow(row, true)}>{row}</span>))}
                 </>)}
                 {showNames===true && (<>
                     {colList.map((col, index)=>(<span className="hacademy-cinema-seat-group-numbers" 
@@ -126,7 +132,7 @@ const SeatGroup = ({
                             transform:"translate(-50%, 0)",
                             cursor:controls===true ? "pointer" : "default",
                     }}
-                    onClick={e=>checkSeatColumn(col)}>{col}</span>))}
+                    onClick={e=>checkSeatColumn(col, true)}>{col}</span>))}
                 </>) }
                 {showNames===true && (<>
                     {rowList.map((row, index)=>(<span className="hacademy-cinema-seat-group-numbers" 
@@ -135,7 +141,8 @@ const SeatGroup = ({
                             right:0,
                             transform:"translate(0, -50%)",
                             cursor:controls===true ? "pointer" : "default",
-                        }}>{row}</span>))}
+                        }}
+                        onClick={e=>checkSeatRow(row, false)}>{row}</span>))}
                 </>)}
                 {showNames===true && (<>
                     {colList.map((col, index)=>(<span className="hacademy-cinema-seat-group-numbers" 
@@ -145,7 +152,7 @@ const SeatGroup = ({
                             transform:"translate(-50%, 0)",
                             cursor:controls===true ? "pointer" : "default",
                         }} 
-                        onClick={e=>checkSeatColumn(col)}>{col}</span>))}
+                        onClick={e=>checkSeatColumn(col, false)}>{col}</span>))}
                 </>) }
                 <div ref={wrapper} className={`hacademy-cinema-seat-group ${className === undefined ? '' : className}`}
                     style={{width:'100%', height:unitSize*rowList.length}}>
@@ -165,7 +172,7 @@ const SeatGroup = ({
 
 //Required
 SeatGroup.propTypes = {
-    maps:PropTypes.arrayOf(PropTypes.object).isRequired,
+    map:PropTypes.arrayOf(PropTypes.object).isRequired,
     onChange:PropTypes.func,
 };
 
