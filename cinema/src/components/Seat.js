@@ -3,13 +3,19 @@ import "./Seat.css";
 
 const Seat = ({
         className="", 
+        data = {
+            no:'no', 
+            row:'row', 
+            col:'col', 
+            price:'price', 
+            grade:'grade',
+            reserved:'reserved', 
+            disabled:'disabled', 
+            direction:'direction',
+        }, 
+        fields,
         name="seat", 
-        row, col, 
         size=50,
-        reserved=false,
-        disabled=false,
-        edit=false,
-        direction="up",
         x=0, y=0,
         onChange
     })=>{
@@ -20,15 +26,20 @@ const Seat = ({
 
     //초기 상태 설정
     useEffect(()=>{
-        if(reserved) {
+        if(data[fields.disabled] === true) {
+            setImage(`${process.env.PUBLIC_URL}/images/seat-disabled.png`);
+            return;
+        }
+        if(data[fields.reserved] === true) {
             setImage(`${process.env.PUBLIC_URL}/images/seat-reserved.png`);
+            return;
         }
     }, []);
 
     //callback
     const checkSeat = useCallback(e=>{
-        if(reserved === true) return;//예약완료 좌석 체크불가
-        if(disabled === true) return;//사용불가 좌석 체크불가
+        if(data[fields.reserved] === true) return;//예약완료 좌석 체크불가
+        if(data[fields.disabled] === true) return;//사용불가 좌석 체크불가
 
         if(e.target.checked) {
             setImage(`${process.env.PUBLIC_URL}/images/seat-check.png`);
@@ -42,7 +53,7 @@ const Seat = ({
     const rotateSeat = useCallback(e=>{
         e.preventDefault();
 
-        if(edit === false) return;//관리 모드가 아닐 경우 차단
+        if(data[fields.edit] === false) return;//관리 모드가 아닐 경우 차단
 
         const newAngle = (angle + 90) % 360;
         setAngle(newAngle);
@@ -50,21 +61,21 @@ const Seat = ({
 
     //초기 각도 설정
     useEffect(()=>{
-        const data = {
+        const angles = {
             up : 0, right : 90, down : 180, left : 270
         };
-        setAngle(data[direction]);
-    }, [direction]);
+        setAngle(angles[data[fields.direction]]);
+    }, [data[fields.direction]]);
 
     return (
-        <label className={`hacademy-cinema-seat ${className} ${reserved ? 'reserved' : ''} ${disabled ? 'disabled' : ''}`} 
+        <label className={`hacademy-cinema-seat ${className} ${data[fields.reserved] ? 'reserved' : ''} ${data[fields.disabled] ? 'disabled' : ''}`} 
             style={
                 {
                     fontSize:size, left:x, top:y
                 }
             }
             onContextMenu={rotateSeat}>
-            <input type="checkbox" name={name} value={`${row}-${col}`} disabled={reserved}
+            <input type="checkbox" name={name} value={`${data[fields.row]}-${data[fields.col]}`} disabled={data[fields.reserved]}
                 onChange={checkSeat}/>
             <span style={
                 {

@@ -1,3 +1,10 @@
+.hacademy-cinema-seat-group-controls {
+    position: relative;
+    overflow: hidden;
+}
+.hacademy-cinema-seat-group-numbers {
+    position: absolute;
+}
 .hacademy-cinema-seat-group {
     position: relative;
 }
