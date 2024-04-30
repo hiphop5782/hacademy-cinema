@@ -22,7 +22,8 @@ const Seat = ({
         name="seat", 
         size=50,
         x=0, y=0,
-        onChange
+        onChange,
+        onMouseEnter, onMouseLeave
     })=>{
 
     //state
@@ -79,7 +80,10 @@ const Seat = ({
                     backgroundImage : `url(${image})` ,
                     transform : `rotate(${angle}deg)`
                 }
-            }></span>
+            } 
+            onMouseEnter={e=>onMouseEnter !== undefined && onMouseEnter(e)}
+            onMouseLeave={e=>onMouseLeave !== undefined && onMouseLeave(e)}
+            ></span>
         </label>
     );
 };

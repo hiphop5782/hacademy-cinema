@@ -24,6 +24,7 @@ const SeatGroup = ({
     cols=[],
     showNames=true,
     controls=false,
+    popup=true,
 })=>{
     const [rowList, setRowList] = useState(rows);
     const [colList, setColList] = useState(cols);
@@ -92,6 +93,7 @@ const SeatGroup = ({
 
     //check event
     const checkSeatRow = useCallback((row, checked)=>{
+        if(controls !== true) return;
         setMap(prev=>prev.map(seat=>{
             if(seat[fields.row] === row) {
                 return {...seat, [fields["checked"]]:checked};
@@ -100,6 +102,7 @@ const SeatGroup = ({
         }));
     }, [map]);
     const checkSeatColumn = useCallback((col, checked)=>{
+        if(controls !== true) return;
         setMap(prev=>prev.map(seat=>{
             if(seat[fields.col] === col) {
                 return {...seat, [fields["checked"]]:checked};
@@ -111,10 +114,25 @@ const SeatGroup = ({
     //dispatch resize event once
     useEffect(()=>{window.dispatchEvent(new Event('resize'))}, []);
 
+    //popup
+    const [popupSeat, setPopupSeat] = useState(null);
+    const [popupPos, setPopupPos] = useState({top:0, left:0});
+
+    const enter = useCallback((e, seat)=>{
+        const rectStyle = e.target.parentNode.style;
+        const top = parseInt(rectStyle.top) + parseInt(rectStyle.fontSize) + fontSize * 1.5;
+        const left = parseInt(rectStyle.left) /*+ parseInt(rectStyle.fontSize) */+ fontSize * 1.5;
+        setPopupPos({top:top, left:left});
+        setPopupSeat(seat);
+    }, [map, popupSeat, popupPos]);
+    const leave = useCallback((e, seat)=>{
+        setPopupSeat(null);
+    }, [map, popupSeat, popupPos]);
+
     return (
         <>
             <div className="hacademy-cinema-seat-group-controls" style={{fontSize:fontSize, padding:showNames===true ? '1.5em':0}}>
-                {showNames===true && (<>
+                      {showNames===true && (<>
                     {rowList.map((row, index)=>(<span className="hacademy-cinema-seat-group-numbers" 
                         key={index} style={{
                             top:(index+1)*unitSize,
@@ -162,9 +180,30 @@ const SeatGroup = ({
                             size={unitSize}
                             x={colList.indexOf(seat[fields.col]) * unitSize} 
                             y={rowList.indexOf(seat[fields.row]) * unitSize}
-                            onChange={e=>checkSeat(e, seat)}></Seat>
+                            onChange={e=>checkSeat(e, seat)}
+                            onMouseEnter={e=>enter(e, seat)}
+                            onMouseLeave={e=>leave(e, seat)}
+                            ></Seat>
                     ))}
-                </div>            
+                </div>    
+
+                { (popup === true && popupSeat !== null) && (
+                <div className="hacademy-cinema-seat-info"
+                        style={popupPos}>
+                    <div>좌석 : {popupSeat[fields.row]}-{popupSeat[fields.col]}</div>
+                    { fields.grade !== undefined && (
+                    <div>등급 : {popupSeat[fields.grade]}</div>
+                    ) }
+                    { fields.price !== undefined && (
+                    <div>가격 : {popupSeat[fields.price]}원</div>
+                    ) }
+                    { (popupSeat[fields.reserved] !== true && popupSeat[fields.disabled] !== true) ? (
+                        <div className="text-valid">예약 가능</div>
+                    ) : (
+                        <div className="text-invalid">예약 불가</div>
+                    ) }
+                </div>                    
+                ) }
             </div>
         </>
     );

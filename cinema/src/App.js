@@ -38,7 +38,7 @@ function App() {
   }, [map]);
 
   return (
-    <div>
+    <div style={{width:500}}>
       <h1>선택도구</h1>
       <SeatGroup map={map} setMap={setMap}
         fields={{
