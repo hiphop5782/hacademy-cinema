@@ -4,8 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _react = require("react");
 require("./Seat.css");
+var _react = require("react");
+var _seatDefault = _interopRequireDefault(require("./images/seat-default.png"));
+var _seatChecked = _interopRequireDefault(require("./images/seat-checked.png"));
+var _seatDisabled = _interopRequireDefault(require("./images/seat-disabled.png"));
+var _seatReserved = _interopRequireDefault(require("./images/seat-reserved.png"));
+var _jsxRuntime = require("react/jsx-runtime");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const Seat = _ref => {
   let {
     className = "",
@@ -30,10 +36,10 @@ const Seat = _ref => {
   //state
   const [angle, setAngle] = (0, _react.useState)(0);
   const image = (0, _react.useMemo)(() => {
-    if (data[fields.disabled] === true) return "".concat(process.env.PUBLIC_URL, "/images/seat-disabled.png");
-    if (data[fields.reserved] === true) return "".concat(process.env.PUBLIC_URL, "/images/seat-reserved.png");
-    if (data[fields.checked]) return "".concat(process.env.PUBLIC_URL, "/images/seat-checked.png");
-    return "".concat(process.env.PUBLIC_URL, "/images/seat-default.png");
+    if (data[fields.disabled] === true) return _seatDisabled.default;
+    if (data[fields.reserved] === true) return _seatReserved.default;
+    if (data[fields.checked]) return _seatChecked.default;
+    return _seatDefault.default;
   }, [data]);
 
   //callback
@@ -63,26 +69,27 @@ const Seat = _ref => {
     };
     setAngle(angles[data[fields.direction]]);
   }, [data[fields.direction]]);
-  return /*#__PURE__*/React.createElement("label", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("label", {
     className: "hacademy-cinema-seat ".concat(className, "}"),
     style: {
       fontSize: size,
       left: x,
       top: y
     },
-    onContextMenu: rotateSeat
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "checkbox",
-    name: name,
-    value: "".concat(data[fields.row], "-").concat(data[fields.col]),
-    disabled: data[fields.reserved],
-    onChange: checkSeat,
-    checked: data[fields.checked] === true ? true : false
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      backgroundImage: "url(".concat(image, ")"),
-      transform: "rotate(".concat(angle, "deg)")
-    }
-  }));
+    onContextMenu: rotateSeat,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+      type: "checkbox",
+      name: name,
+      value: "".concat(data[fields.row], "-").concat(data[fields.col]),
+      disabled: data[fields.reserved],
+      onChange: checkSeat,
+      checked: data[fields.checked] === true ? true : false
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      style: {
+        backgroundImage: "url(".concat(image, ")"),
+        transform: "rotate(".concat(angle, "deg)")
+      }
+    })]
+  });
 };
 var _default = exports.default = Seat;

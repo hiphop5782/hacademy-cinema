@@ -9,6 +9,7 @@ var _react = require("react");
 var _throttle = _interopRequireDefault(require("lodash/throttle"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 var _Seat = _interopRequireDefault(require("./Seat"));
+var _jsxRuntime = require("react/jsx-runtime");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const SeatGroup = _ref => {
   let {
@@ -124,68 +125,79 @@ const SeatGroup = _ref => {
   (0, _react.useEffect)(() => {
     window.dispatchEvent(new Event('resize'));
   }, []);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "hacademy-cinema-seat-group-controls",
-    style: {
-      fontSize: fontSize,
-      padding: showNames === true ? '1.5em' : 0
-    }
-  }, showNames === true && /*#__PURE__*/React.createElement(React.Fragment, null, rowList.map((row, index) => /*#__PURE__*/React.createElement("span", {
-    className: "hacademy-cinema-seat-group-numbers",
-    key: index,
-    style: {
-      top: (index + 1) * unitSize,
-      left: 0,
-      transform: "translate(0, -50%)",
-      cursor: controls === true ? "pointer" : "default"
-    },
-    onClick: e => checkSeatRow(row, true)
-  }, row))), showNames === true && /*#__PURE__*/React.createElement(React.Fragment, null, colList.map((col, index) => /*#__PURE__*/React.createElement("span", {
-    className: "hacademy-cinema-seat-group-numbers",
-    key: index,
-    style: {
-      top: 0,
-      left: (index + 1) * unitSize,
-      transform: "translate(-50%, 0)",
-      cursor: controls === true ? "pointer" : "default"
-    },
-    onClick: e => checkSeatColumn(col, true)
-  }, col))), showNames === true && /*#__PURE__*/React.createElement(React.Fragment, null, rowList.map((row, index) => /*#__PURE__*/React.createElement("span", {
-    className: "hacademy-cinema-seat-group-numbers",
-    key: index,
-    style: {
-      top: (index + 1) * unitSize,
-      right: 0,
-      transform: "translate(0, -50%)",
-      cursor: controls === true ? "pointer" : "default"
-    },
-    onClick: e => checkSeatRow(row, false)
-  }, row))), showNames === true && /*#__PURE__*/React.createElement(React.Fragment, null, colList.map((col, index) => /*#__PURE__*/React.createElement("span", {
-    className: "hacademy-cinema-seat-group-numbers",
-    key: index,
-    style: {
-      bottom: 0,
-      left: (index + 1) * unitSize,
-      transform: "translate(-50%, 0)",
-      cursor: controls === true ? "pointer" : "default"
-    },
-    onClick: e => checkSeatColumn(col, false)
-  }, col))), /*#__PURE__*/React.createElement("div", {
-    ref: wrapper,
-    className: "hacademy-cinema-seat-group ".concat(className === undefined ? '' : className),
-    style: {
-      width: '100%',
-      height: unitSize * rowList.length
-    }
-  }, map.map(seat => /*#__PURE__*/React.createElement(_Seat.default, {
-    key: seat[fields.no],
-    data: seat,
-    fields: fields,
-    size: unitSize,
-    x: colList.indexOf(seat[fields.col]) * unitSize,
-    y: rowList.indexOf(seat[fields.row]) * unitSize,
-    onChange: e => checkSeat(e, seat)
-  })))));
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
+    children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+      className: "hacademy-cinema-seat-group-controls",
+      style: {
+        fontSize: fontSize,
+        padding: showNames === true ? '1.5em' : 0
+      },
+      children: [showNames === true && /*#__PURE__*/(0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
+        children: rowList.map((row, index) => /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+          className: "hacademy-cinema-seat-group-numbers",
+          style: {
+            top: (index + 1) * unitSize,
+            left: 0,
+            transform: "translate(0, -50%)",
+            cursor: controls === true ? "pointer" : "default"
+          },
+          onClick: e => checkSeatRow(row, true),
+          children: row
+        }, index))
+      }), showNames === true && /*#__PURE__*/(0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
+        children: colList.map((col, index) => /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+          className: "hacademy-cinema-seat-group-numbers",
+          style: {
+            top: 0,
+            left: (index + 1) * unitSize,
+            transform: "translate(-50%, 0)",
+            cursor: controls === true ? "pointer" : "default"
+          },
+          onClick: e => checkSeatColumn(col, true),
+          children: col
+        }, index))
+      }), showNames === true && /*#__PURE__*/(0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
+        children: rowList.map((row, index) => /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+          className: "hacademy-cinema-seat-group-numbers",
+          style: {
+            top: (index + 1) * unitSize,
+            right: 0,
+            transform: "translate(0, -50%)",
+            cursor: controls === true ? "pointer" : "default"
+          },
+          onClick: e => checkSeatRow(row, false),
+          children: row
+        }, index))
+      }), showNames === true && /*#__PURE__*/(0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
+        children: colList.map((col, index) => /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+          className: "hacademy-cinema-seat-group-numbers",
+          style: {
+            bottom: 0,
+            left: (index + 1) * unitSize,
+            transform: "translate(-50%, 0)",
+            cursor: controls === true ? "pointer" : "default"
+          },
+          onClick: e => checkSeatColumn(col, false),
+          children: col
+        }, index))
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        ref: wrapper,
+        className: "hacademy-cinema-seat-group ".concat(className === undefined ? '' : className),
+        style: {
+          width: '100%',
+          height: unitSize * rowList.length
+        },
+        children: map.map(seat => /*#__PURE__*/(0, _jsxRuntime.jsx)(_Seat.default, {
+          data: seat,
+          fields: fields,
+          size: unitSize,
+          x: colList.indexOf(seat[fields.col]) * unitSize,
+          y: rowList.indexOf(seat[fields.row]) * unitSize,
+          onChange: e => checkSeat(e, seat)
+        }, seat[fields.no]))
+      })]
+    })
+  });
 };
 
 //Required

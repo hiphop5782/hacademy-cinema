@@ -1,15 +1,13 @@
 {
   "name": "hacademy-cinema-seat",
   "private":false,
-  "version": "0.0.1",
+  "version": "0.0.8",
   "module": "dist/index.js",
   "main": "dist/index.js",
-  "peerDependencies": {
+  "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
-  },
-  "dependencies": {
+    "react-scripts": "5.0.1",
     "@babel/cli": "^7.24.1",
     "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.24.1",
@@ -28,11 +26,6 @@
     "test": "craco test",
     "clean": "rimraf dist",
     "compile": "npm run clean && cross-env NODE_ENV=production babel src/components --out-dir dist --copy-files"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-react"
-    ]
   },
   "eslintConfig": {
     "extends": [

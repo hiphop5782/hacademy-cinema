@@ -1,5 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
 import "./Seat.css";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import SeatDefault from "./images/seat-default.png";
+import SeatChecked from "./images/seat-checked.png";
+import SeatDisabled from "./images/seat-disabled.png";
+import SeatReserved from "./images/seat-reserved.png";
 
 const Seat = ({
         className="", 
@@ -25,12 +29,12 @@ const Seat = ({
     const [angle, setAngle] = useState(0);
     const image = useMemo(()=>{
         if(data[fields.disabled] === true) 
-            return `${process.env.PUBLIC_URL}/images/seat-disabled.png`;
+            return SeatDisabled;
         if(data[fields.reserved] === true) 
-            return `${process.env.PUBLIC_URL}/images/seat-reserved.png`;
+            return SeatReserved;
         if(data[fields.checked])
-            return `${process.env.PUBLIC_URL}/images/seat-checked.png`;
-        return `${process.env.PUBLIC_URL}/images/seat-default.png`;
+            return SeatChecked;
+        return SeatDefault;
     }, [data]);
 
     //callback
