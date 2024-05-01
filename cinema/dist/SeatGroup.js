@@ -30,7 +30,8 @@ const SeatGroup = _ref => {
     rows = [],
     cols = [],
     showNames = true,
-    controls = false
+    controls = false,
+    popup = true
   } = _ref;
   const [rowList, setRowList] = (0, _react.useState)(rows);
   const [colList, setColList] = (0, _react.useState)(cols);
@@ -95,6 +96,7 @@ const SeatGroup = _ref => {
 
   //check event
   const checkSeatRow = (0, _react.useCallback)((row, checked) => {
+    if (controls !== true) return;
     setMap(prev => prev.map(seat => {
       if (seat[fields.row] === row) {
         return {
@@ -108,6 +110,7 @@ const SeatGroup = _ref => {
     }));
   }, [map]);
   const checkSeatColumn = (0, _react.useCallback)((col, checked) => {
+    if (controls !== true) return;
     setMap(prev => prev.map(seat => {
       if (seat[fields.col] === col) {
         return {
@@ -125,6 +128,26 @@ const SeatGroup = _ref => {
   (0, _react.useEffect)(() => {
     window.dispatchEvent(new Event('resize'));
   }, []);
+
+  //popup
+  const [popupSeat, setPopupSeat] = (0, _react.useState)(null);
+  const [popupPos, setPopupPos] = (0, _react.useState)({
+    top: 0,
+    left: 0
+  });
+  const enter = (0, _react.useCallback)((e, seat) => {
+    const rectStyle = e.target.parentNode.style;
+    const top = parseInt(rectStyle.top) + parseInt(rectStyle.fontSize) + fontSize * 1.5;
+    const left = parseInt(rectStyle.left) /*+ parseInt(rectStyle.fontSize) */ + fontSize * 1.5;
+    setPopupPos({
+      top: top,
+      left: left
+    });
+    setPopupSeat(seat);
+  }, [map, popupSeat, popupPos]);
+  const leave = (0, _react.useCallback)((e, seat) => {
+    setPopupSeat(null);
+  }, [map, popupSeat, popupPos]);
   return /*#__PURE__*/(0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
     children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       className: "hacademy-cinema-seat-group-controls",
@@ -193,8 +216,26 @@ const SeatGroup = _ref => {
           size: unitSize,
           x: colList.indexOf(seat[fields.col]) * unitSize,
           y: rowList.indexOf(seat[fields.row]) * unitSize,
-          onChange: e => checkSeat(e, seat)
+          onChange: e => checkSeat(e, seat),
+          onMouseEnter: e => enter(e, seat),
+          onMouseLeave: e => leave(e, seat)
         }, seat[fields.no]))
+      }), popup === true && popupSeat !== null && /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        className: "hacademy-cinema-seat-info",
+        style: popupPos,
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          children: ["\uC88C\uC11D : ", popupSeat[fields.row], "-", popupSeat[fields.col]]
+        }), fields.grade !== undefined && /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          children: ["\uB4F1\uAE09 : ", popupSeat[fields.grade]]
+        }), fields.price !== undefined && /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          children: ["\uAC00\uACA9 : ", popupSeat[fields.price], "\uC6D0"]
+        }), popupSeat[fields.reserved] !== true && popupSeat[fields.disabled] !== true ? /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+          className: "text-valid",
+          children: "\uC608\uC57D \uAC00\uB2A5"
+        }) : /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+          className: "text-invalid",
+          children: "\uC608\uC57D \uBD88\uAC00"
+        })]
       })]
     })
   });

@@ -23,6 +23,7 @@ const SeatGroup = ({
     rows=[],
     cols=[],
     showNames=true,
+    showGrade,
     controls=false,
     popup=true,
 })=>{
@@ -51,7 +52,9 @@ const SeatGroup = ({
             setColList(Array.from(col));
         }
     }, [rows, cols, map]);
-    useEffect(calculateRowAndCols, [showNames, rows, cols, rowList, colList]);
+    useEffect(()=>{
+        calculateRowAndCols();
+    }, []);
 
     const wrapper = useRef();
     const [size, setSize] = useState(0);
@@ -122,7 +125,7 @@ const SeatGroup = ({
         const rectStyle = e.target.parentNode.style;
         const top = parseInt(rectStyle.top) + parseInt(rectStyle.fontSize) + fontSize * 1.5;
         const left = parseInt(rectStyle.left) /*+ parseInt(rectStyle.fontSize) */+ fontSize * 1.5;
-        setPopupPos({top:top, left:left});
+        setPopupPos({ top : top, left : left });
         setPopupSeat(seat);
     }, [map, popupSeat, popupPos]);
     const leave = useCallback((e, seat)=>{
@@ -183,6 +186,7 @@ const SeatGroup = ({
                             onChange={e=>checkSeat(e, seat)}
                             onMouseEnter={e=>enter(e, seat)}
                             onMouseLeave={e=>leave(e, seat)}
+                            showGrade={showGrade}
                             ></Seat>
                     ))}
                 </div>    
@@ -213,6 +217,7 @@ const SeatGroup = ({
 SeatGroup.propTypes = {
     map:PropTypes.arrayOf(PropTypes.object).isRequired,
     onChange:PropTypes.func,
+    showGrade:PropTypes.object,
 };
 
 export default SeatGroup;

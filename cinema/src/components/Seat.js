@@ -23,12 +23,15 @@ const Seat = ({
         size=50,
         x=0, y=0,
         onChange,
-        onMouseEnter, onMouseLeave
+        onMouseEnter, onMouseLeave,
+        showGrade
     })=>{
 
     //state
     const [angle, setAngle] = useState(0);
     const image = useMemo(()=>{
+        if(fields === undefined) 
+            return SeatDefault;
         if(data[fields.disabled] === true) 
             return SeatDisabled;
         if(data[fields.reserved] === true) 
@@ -40,6 +43,7 @@ const Seat = ({
 
     //callback
     const checkSeat = useCallback(e=>{
+        if(fields === undefined) return;
         if(data[fields.reserved] === true) return;//예약완료 좌석 체크불가
         if(data[fields.disabled] === true) return;//사용불가 좌석 체크불가
 
@@ -50,7 +54,7 @@ const Seat = ({
 
     const rotateSeat = useCallback(e=>{
         e.preventDefault();
-
+        if(fields === undefined) return;
         if(data[fields.edit] === false) return;//관리 모드가 아닐 경우 차단
 
         const newAngle = (angle + 90) % 360;
@@ -59,6 +63,7 @@ const Seat = ({
 
     //초기 각도 설정
     useEffect(()=>{
+        if(fields === undefined) return;
         const angles = {
             up : 0, right : 90, down : 180, left : 270
         };
@@ -78,12 +83,16 @@ const Seat = ({
             <span style={
                 {
                     backgroundImage : `url(${image})` ,
-                    transform : `rotate(${angle}deg)`
+                    transform : `rotate(${angle}deg)`,
                 }
             } 
             onMouseEnter={e=>onMouseEnter !== undefined && onMouseEnter(e)}
             onMouseLeave={e=>onMouseLeave !== undefined && onMouseLeave(e)}
-            ></span>
+            >
+                {(showGrade !== undefined && fields.grade !== undefined) && (
+                    <label style={{...showGrade}}>{data[fields.grade]}</label>
+                ) }
+            </span>
         </label>
     );
 };

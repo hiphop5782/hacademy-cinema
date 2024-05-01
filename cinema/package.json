@@ -1,7 +1,7 @@
 {
   "name": "hacademy-cinema-seat",
   "private":false,
-  "version": "0.0.8",
+  "version": "0.0.11",
   "module": "dist/index.js",
   "main": "dist/index.js",
   "dependencies": {

@@ -1,10 +1,27 @@
 .hacademy-cinema-seat-group-controls {
     position: relative;
-    overflow: hidden;
 }
-.hacademy-cinema-seat-group-numbers {
+.hacademy-cinema-seat-group-controls > .hacademy-cinema-seat-group-numbers {
     position: absolute;
 }
-.hacademy-cinema-seat-group {
+.hacademy-cinema-seat-group-controls > .hacademy-cinema-seat-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    box-shadow: 0 0 0 1px #2d3436;
+    background-color: white;
+    font-size: 1em;
+    padding: 0.25em;
+}
+.hacademy-cinema-seat-group-controls > .hacademy-cinema-seat-info > .text-valid
+{
+    color: #0984e3;
+}
+.hacademy-cinema-seat-group-controls > .hacademy-cinema-seat-info > .text-invalid 
+{
+    color: #d63031;
+}
+.hacademy-cinema-seat-group-controls > .hacademy-cinema-seat-group {
     position: relative;
 }

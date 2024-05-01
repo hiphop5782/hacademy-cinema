@@ -31,7 +31,9 @@ const Seat = _ref => {
     size = 50,
     x = 0,
     y = 0,
-    onChange
+    onChange,
+    onMouseEnter,
+    onMouseLeave
   } = _ref;
   //state
   const [angle, setAngle] = (0, _react.useState)(0);
@@ -88,7 +90,9 @@ const Seat = _ref => {
       style: {
         backgroundImage: "url(".concat(image, ")"),
         transform: "rotate(".concat(angle, "deg)")
-      }
+      },
+      onMouseEnter: e => onMouseEnter !== undefined && onMouseEnter(e),
+      onMouseLeave: e => onMouseLeave !== undefined && onMouseLeave(e)
     })]
   });
 };

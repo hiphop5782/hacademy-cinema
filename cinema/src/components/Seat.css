@@ -24,4 +24,14 @@
     /* box-shadow: 0 0 0 1px black; */
     background-repeat: no-repeat;
     background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.hacademy-cinema-seat > span > label {
+    font-size: 0.2em;
+    padding: 0.1em;
+    border-radius: 0.25em;
+    margin-top: 0.5em;
 }
