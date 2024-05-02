@@ -24,21 +24,22 @@ const Seat = ({
         x=0, y=0,
         onChange,
         onMouseEnter, onMouseLeave,
-        showGrade
+        showGrade,
+        images
     })=>{
 
     //state
     const [angle, setAngle] = useState(0);
     const image = useMemo(()=>{
-        if(fields === undefined) 
-            return SeatDefault;
-        if(data[fields.disabled] === true) 
-            return SeatDisabled;
-        if(data[fields.reserved] === true) 
-            return SeatReserved;
-        if(data[fields.checked])
-            return SeatChecked;
-        return SeatDefault;
+        if(fields !== undefined) {
+            if(data[fields.disabled] === true) 
+                return images === undefined ? SeatDisabled : images.disabledState;
+            if(data[fields.reserved] === true) 
+                return images === undefined ? SeatReserved : images.reservedState;
+            if(data[fields.checked] === true)
+                return images === undefined ? SeatChecked : images.checkedState;
+        }
+        return images === undefined ? SeatDefault : images.defaultState;
     }, [data]);
 
     //callback

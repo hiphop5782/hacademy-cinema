@@ -33,19 +33,24 @@ const Seat = _ref => {
     y = 0,
     onChange,
     onMouseEnter,
-    onMouseLeave
+    onMouseLeave,
+    showGrade,
+    images
   } = _ref;
   //state
   const [angle, setAngle] = (0, _react.useState)(0);
   const image = (0, _react.useMemo)(() => {
-    if (data[fields.disabled] === true) return _seatDisabled.default;
-    if (data[fields.reserved] === true) return _seatReserved.default;
-    if (data[fields.checked]) return _seatChecked.default;
-    return _seatDefault.default;
+    if (fields !== undefined) {
+      if (data[fields.disabled] === true) return images === undefined ? _seatDisabled.default : images.disabledState;
+      if (data[fields.reserved] === true) return images === undefined ? _seatReserved.default : images.reservedState;
+      if (data[fields.checked] === true) return images === undefined ? _seatChecked.default : images.checkedState;
+    }
+    return images === undefined ? _seatDefault.default : images.defaultState;
   }, [data]);
 
   //callback
   const checkSeat = (0, _react.useCallback)(e => {
+    if (fields === undefined) return;
     if (data[fields.reserved] === true) return; //예약완료 좌석 체크불가
     if (data[fields.disabled] === true) return; //사용불가 좌석 체크불가
 
@@ -55,6 +60,7 @@ const Seat = _ref => {
   }, [image]);
   const rotateSeat = (0, _react.useCallback)(e => {
     e.preventDefault();
+    if (fields === undefined) return;
     if (data[fields.edit] === false) return; //관리 모드가 아닐 경우 차단
 
     const newAngle = (angle + 90) % 360;
@@ -63,6 +69,7 @@ const Seat = _ref => {
 
   //초기 각도 설정
   (0, _react.useEffect)(() => {
+    if (fields === undefined) return;
     const angles = {
       up: 0,
       right: 90,
@@ -92,7 +99,13 @@ const Seat = _ref => {
         transform: "rotate(".concat(angle, "deg)")
       },
       onMouseEnter: e => onMouseEnter !== undefined && onMouseEnter(e),
-      onMouseLeave: e => onMouseLeave !== undefined && onMouseLeave(e)
+      onMouseLeave: e => onMouseLeave !== undefined && onMouseLeave(e),
+      children: showGrade !== undefined && fields.grade !== undefined && /*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
+        style: {
+          ...showGrade
+        },
+        children: data[fields.grade]
+      })
     })]
   });
 };

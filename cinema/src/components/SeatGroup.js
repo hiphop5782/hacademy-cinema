@@ -26,6 +26,7 @@ const SeatGroup = ({
     showGrade,
     controls=false,
     popup=true,
+    images,
 })=>{
     const [rowList, setRowList] = useState(rows);
     const [colList, setColList] = useState(cols);
@@ -187,7 +188,8 @@ const SeatGroup = ({
                             onMouseEnter={e=>enter(e, seat)}
                             onMouseLeave={e=>leave(e, seat)}
                             showGrade={showGrade}
-                            ></Seat>
+                            images={images}
+                        ></Seat>
                     ))}
                 </div>    
 
