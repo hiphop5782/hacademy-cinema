@@ -17,6 +17,7 @@ const SeatCreator = ({
         direction:'direction',
         checked:'checked',
     },
+    images
 })=>{
     const [map, setMap] = useState([]);
     useEffect(()=>{
@@ -56,7 +57,7 @@ const SeatCreator = ({
             <input type="checkbox" className="hacademy-cinema-seat-checker" checked={checkState} onChange={e=>checkAll(e)}/>
             <input type="checkbox" className="hacademy-cinema-seat-checker" checked={checkState} onChange={e=>checkAll(e)}/>
             <SeatGroup map={map} setMap={setMap} fields={fields}
-                rows={rows} cols={cols} controls/>
+                rows={rows} cols={cols} controls images/>
         </div>
     );
 };

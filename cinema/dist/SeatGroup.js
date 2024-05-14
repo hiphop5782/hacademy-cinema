@@ -30,8 +30,10 @@ const SeatGroup = _ref => {
     rows = [],
     cols = [],
     showNames = true,
+    showGrade,
     controls = false,
-    popup = true
+    popup = true,
+    images
   } = _ref;
   const [rowList, setRowList] = (0, _react.useState)(rows);
   const [colList, setColList] = (0, _react.useState)(cols);
@@ -55,7 +57,9 @@ const SeatGroup = _ref => {
       setColList(Array.from(col));
     }
   }, [rows, cols, map]);
-  (0, _react.useEffect)(calculateRowAndCols, [showNames, rows, cols, rowList, colList]);
+  (0, _react.useEffect)(() => {
+    calculateRowAndCols();
+  }, []);
   const wrapper = (0, _react.useRef)();
   const [size, setSize] = (0, _react.useState)(0);
   const [unitSize, setUnitSize] = (0, _react.useState)(16);
@@ -218,7 +222,9 @@ const SeatGroup = _ref => {
           y: rowList.indexOf(seat[fields.row]) * unitSize,
           onChange: e => checkSeat(e, seat),
           onMouseEnter: e => enter(e, seat),
-          onMouseLeave: e => leave(e, seat)
+          onMouseLeave: e => leave(e, seat),
+          showGrade: showGrade,
+          images: images
         }, seat[fields.no]))
       }), popup === true && popupSeat !== null && /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
         className: "hacademy-cinema-seat-info",
@@ -244,6 +250,7 @@ const SeatGroup = _ref => {
 //Required
 SeatGroup.propTypes = {
   map: _propTypes.default.arrayOf(_propTypes.default.object).isRequired,
-  onChange: _propTypes.default.func
+  onChange: _propTypes.default.func,
+  showGrade: _propTypes.default.object
 };
 var _default = exports.default = SeatGroup;
