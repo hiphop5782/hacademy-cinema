@@ -26,7 +26,7 @@ const SeatGroup = ({
     showGrade,
     controls=false,
     popup=true,
-    images
+    images,
 })=>{
     const [rowList, setRowList] = useState(rows);
     const [colList, setColList] = useState(cols);

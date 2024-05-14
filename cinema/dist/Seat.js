@@ -41,11 +41,19 @@ const Seat = _ref => {
   const [angle, setAngle] = (0, _react.useState)(0);
   const image = (0, _react.useMemo)(() => {
     if (fields !== undefined) {
+<<<<<<< HEAD
       if (data[fields.disabled] === true) return (images === null || images === void 0 ? void 0 : images.disabled) || _seatDisabled.default;
       if (data[fields.reserved] === true) return (images === null || images === void 0 ? void 0 : images.reserved) || _seatReserved.default;
       if (data[fields.checked]) return (images === null || images === void 0 ? void 0 : images.checked) || _seatChecked.default;
     }
     return (images === null || images === void 0 ? void 0 : images.default) || _seatDefault.default;
+=======
+      if (data[fields.disabled] === true) return images === undefined ? _seatDisabled.default : images.disabledState;
+      if (data[fields.reserved] === true) return images === undefined ? _seatReserved.default : images.reservedState;
+      if (data[fields.checked] === true) return images === undefined ? _seatChecked.default : images.checkedState;
+    }
+    return images === undefined ? _seatDefault.default : images.defaultState;
+>>>>>>> f0a01a0c04c1a1d7c5447fddcfa4002daa7090f7
   }, [data]);
 
   //callback

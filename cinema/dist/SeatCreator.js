@@ -86,7 +86,11 @@ const SeatCreator = _ref => {
       rows: rows,
       cols: cols,
       controls: true,
+<<<<<<< HEAD
       images: true
+=======
+      images: images
+>>>>>>> f0a01a0c04c1a1d7c5447fddcfa4002daa7090f7
     })]
   });
 };
